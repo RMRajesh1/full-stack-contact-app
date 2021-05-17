@@ -1,0 +1,12 @@
+<li>
+  <img src={{if @contact.image @contact.image this.defaultImage}} alt="contact-image" class="list-item-profiles">
+  <div>
+    <p class="contact-name">{{@contact.name}}</p>
+    {{#each @contact.number as |item|}}
+      <p class="contact-numbers">
+        <a href="tel+{{item.number}}">{{item.number}}</a>
+      </p>
+    {{/each}}
+    <p class="contact-date">Modified on {{format-date @contact.date "0"}}</p>
+  </div>
+</li>
