@@ -4,23 +4,43 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
-    <display-name>Sample web application</display-name>
+    <display-name>Contact application</display-name>
     <description>
-        This is a sample web application
+        This was build using EmberJS as front-end and Scala as back-end
     </description>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <!-- signup servlet -->
+    <!-- To get contact list -->
     <servlet>
         <servlet-name>getContactListServlet</servlet-name>
         <servlet-class>FetchContactList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getContactListServlet</servlet-name>
-        <url-pattern>/contactList</url-pattern>
+        <url-pattern>/contacts</url-pattern>
+    </servlet-mapping>
+
+    <!-- edit-contact servlet -->
+    <servlet>
+        <servlet-name>EditContactDataServlet</servlet-name>
+        <servlet-class>EditContactData</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditContactDataServlet</servlet-name>
+        <url-pattern>/contacts/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- edit-number servlet -->
+    <servlet>
+        <servlet-name>EditNumberServlet</servlet-name>
+        <servlet-class>EditNumberAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditNumberServlet</servlet-name>
+        <url-pattern>/numbers/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

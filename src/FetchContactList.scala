@@ -4,12 +4,13 @@ import scala.collection.immutable.Map
 
 class FetchContactList extends HttpServlet {
     override def doGet(req: HSReq, resp: HSResp) {
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
         val db = new DBManager()
         val json:JsValue = db.getContactList()
-        println(json)
+
+        resp.setContentType("application/json")
+        resp.setCharacterEncoding("UTF-8")
+        
+        val out = resp.getWriter()
         out.println(Json.stringify(json))
     }
 }
