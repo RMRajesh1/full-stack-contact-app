@@ -1,1 +1,4 @@
-export { default } from 'ember-local-storage/serializers/serializer';
+import RESTSerializer from '@ember-data/serializer/rest';
+
+export default class ApplicationSerializer extends RESTSerializer {
+}

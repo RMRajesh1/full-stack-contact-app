@@ -15,18 +15,28 @@
     }
   });
 });
-;define("trial-app/adapters/application", ["exports", "ember-local-storage/adapters/local"], function (_exports, _local) {
+;define("trial-app/adapters/application", ["exports", "@ember-data/adapter/rest"], function (_exports, _rest) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _local.default;
+  _exports.default = void 0;
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  class ApplicationAdapter extends _rest.default {
+    constructor(...args) {
+      super(...args);
+
+      _defineProperty(this, "host", 'http://localhost:8181');
+
+      _defineProperty(this, "namespace", 'contact-app');
     }
-  });
+
+  }
+
+  _exports.default = ApplicationAdapter;
 });
 ;define("trial-app/app", ["exports", "ember-resolver", "ember-load-initializers", "trial-app/config/environment"], function (_exports, _emberResolver, _emberLoadInitializers, _environment) {
   "use strict";
@@ -1541,18 +1551,17 @@
     }
   });
 });
-;define("trial-app/serializers/application", ["exports", "ember-local-storage/serializers/serializer"], function (_exports, _serializer) {
+;define("trial-app/serializers/application", ["exports", "@ember-data/serializer/rest"], function (_exports, _rest) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _serializer.default;
-    }
-  });
+  _exports.default = void 0;
+
+  class ApplicationSerializer extends _rest.default {}
+
+  _exports.default = ApplicationSerializer;
 });
 ;define("trial-app/services/number-type", ["exports"], function (_exports) {
   "use strict";
