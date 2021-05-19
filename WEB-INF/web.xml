@@ -15,31 +15,31 @@
 
     <!-- To get contact list -->
     <servlet>
-        <servlet-name>getContactListServlet</servlet-name>
-        <servlet-class>FetchContactList</servlet-class>
+        <servlet-name>ContactListServlet</servlet-name>
+        <servlet-class>action.ContactURLAction</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>getContactListServlet</servlet-name>
+        <servlet-name>ContactListServlet</servlet-name>
         <url-pattern>/contacts</url-pattern>
     </servlet-mapping>
 
-    <!-- edit-contact servlet -->
+    <!-- contact action servlet -->
     <servlet>
-        <servlet-name>EditContactDataServlet</servlet-name>
-        <servlet-class>EditContactData</servlet-class>
+        <servlet-name>ContactServlet</servlet-name>
+        <servlet-class>action.ContactAction</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>EditContactDataServlet</servlet-name>
+        <servlet-name>ContactServlet</servlet-name>
         <url-pattern>/contacts/*</url-pattern>
     </servlet-mapping>
 
-    <!-- edit-number servlet -->
+    <!-- number action servlet -->
     <servlet>
-        <servlet-name>EditNumberServlet</servlet-name>
-        <servlet-class>EditNumberAction</servlet-class>
+        <servlet-name>NumberServlet</servlet-name>
+        <servlet-class>action.NumberAction</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>EditNumberServlet</servlet-name>
+        <servlet-name>NumberServlet</servlet-name>
         <url-pattern>/numbers/*</url-pattern>
     </servlet-mapping>
 
