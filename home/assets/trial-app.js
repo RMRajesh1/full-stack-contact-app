@@ -303,7 +303,7 @@
 
     removeNumber(element) {
       if (this.model.number.length > 1) {
-        element.destroyRecord();
+        element.deleteRecord();
       }
     }
 
@@ -506,10 +506,10 @@
     saveContactData() {
       if (this.checkInputFields()) {
         this.model.date = new Date().getTime();
+        this.model.save();
         this.model.number.forEach(element => {
           element.save();
         });
-        this.model.save();
         this.router.transitionTo('contacts');
       }
     }
@@ -729,19 +729,15 @@
   _exports.default = void 0;
 
   var _default = Ember.Helper.helper(function formatDate(params) {
-    let longData, index, slicedValue, formatType, formattedValue;
+    let longData, formatType, formattedDate;
     [longData, formatType] = params;
-    index = longData.lastIndexOf(' ');
-    slicedValue = Number(longData.slice(index));
-    formattedValue = new Date(slicedValue);
+    formattedDate = new Date(Number(longData));
 
     if (Number(formatType)) {
-      formattedValue = formattedValue.toLocaleString();
-    } else {
-      formattedValue = formattedValue.toLocaleDateString();
+      return formattedDate.toLocaleString();
     }
 
-    return longData.slice(0, index + 1) + formattedValue;
+    return formattedDate.toLocaleDateString();
   });
 
   _exports.default = _default;
@@ -1471,8 +1467,6 @@
         contact.catch(() => this.transitionTo('edit-contact', 'new'));
       }
 
-      console.log(contact);
-      console.log(number);
       return contact;
     } // @action
     // willTransition(transition) {
