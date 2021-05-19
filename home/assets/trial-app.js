@@ -630,6 +630,30 @@
   }), _applyDecoratedDescriptor(_class.prototype, "saveContactData", [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, "saveContactData"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "cancelThisOperation", [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, "cancelThisOperation"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "chooseAvatar", [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, "chooseAvatar"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setContactImage", [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, "setContactImage"), _class.prototype)), _class));
   _exports.default = EditContactController;
 });
+;define("trial-app/controllers/login", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  class LoginController extends Ember.Controller {}
+
+  _exports.default = LoginController;
+});
+;define("trial-app/controllers/signup", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  class SignupController extends Ember.Controller {}
+
+  _exports.default = SignupController;
+});
 ;define("trial-app/data-adapter", ["exports", "@ember-data/debug"], function (_exports, _debug) {
   "use strict";
 
@@ -1347,6 +1371,8 @@
     this.route('not-found', {
       path: '/*path'
     });
+    this.route('login');
+    this.route('signup');
   });
 });
 ;define("trial-app/routes/application", ["exports"], function (_exports) {
@@ -1494,6 +1520,18 @@
 
   _exports.default = IndexRoute;
 });
+;define("trial-app/routes/login", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  class LoginRoute extends Ember.Route {}
+
+  _exports.default = LoginRoute;
+});
 ;define("trial-app/routes/not-found", ["exports"], function (_exports) {
   "use strict";
 
@@ -1505,6 +1543,18 @@
   class NotFoundRoute extends Ember.Route {}
 
   _exports.default = NotFoundRoute;
+});
+;define("trial-app/routes/signup", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  class SignupRoute extends Ember.Route {}
+
+  _exports.default = SignupRoute;
 });
 ;define("trial-app/serializers/-default", ["exports", "@ember-data/serializer/json"], function (_exports, _json) {
   "use strict";
@@ -1731,6 +1781,23 @@
 
   _exports.default = _default;
 });
+;define("trial-app/templates/login", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.HTMLBars.template({
+    "id": "LOkq2uWb",
+    "block": "[[[1,[28,[35,0],[\"Login\"],null]],[1,\"\\n\\n\\n\"]],[],false,[\"page-title\"]]",
+    "moduleName": "trial-app/templates/login.hbs",
+    "isStrictMode": false
+  });
+
+  _exports.default = _default;
+});
 ;define("trial-app/templates/not-found", ["exports"], function (_exports) {
   "use strict";
 
@@ -1743,6 +1810,23 @@
     "id": "hElP2aaF",
     "block": "[[[1,[28,[35,0],[\"NotFound\"],null]],[1,\"\\n\\n\\n\"],[10,0],[14,0,\"error\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"sky\"],[12],[1,\"\\n    \"],[10,\"h2\"],[12],[1,\"\\n      \"],[10,1],[12],[1,\"4\"],[13],[1,\"\\n      \"],[10,1],[12],[1,\"0\"],[13],[1,\"\\n      \"],[10,1],[12],[1,\"4\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"grass\"],[12],[13],[1,\"\\n    \"],[10,\"img\"],[15,\"src\",[29,[[36,1],\"assets/images/plane.png\"]]],[14,\"alt\",\"plane_img\"],[14,0,\"plane\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n  \"],[10,0],[14,0,\"field\"],[12],[1,\"\\n    \"],[10,\"h2\"],[12],[1,\"Opps... looks like you got lost!\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"./\"],[12],[1,\"GO HOME\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],false,[\"page-title\",\"rootURL\"]]",
     "moduleName": "trial-app/templates/not-found.hbs",
+    "isStrictMode": false
+  });
+
+  _exports.default = _default;
+});
+;define("trial-app/templates/signup", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.HTMLBars.template({
+    "id": "6W4aL5Hc",
+    "block": "[[[1,[28,[35,0],[\"Signup\"],null]],[1,\"\\n\\n\"],[10,\"section\"],[14,1,\"signup-container\"],[12],[1,\"\\n\\n  \"],[10,\"form\"],[14,\"action\",\"signup\"],[14,\"method\",\"post\"],[12],[1,\"\\n    \"],[8,[39,1],null,[[\"@type\",\"@name\",\"@id\",\"@placeholder\"],[\"text\",\"username\",\"signup-username\",\"username\"]],null],[1,\"\\n    \"],[8,[39,1],null,[[\"@type\",\"@name\",\"@id\",\"@placeholder\"],[\"email\",\"email\",\"signup-email\",\"email\"]],null],[1,\"\\n    \"],[8,[39,1],null,[[\"@type\",\"@name\",\"@id\",\"@placeholder\"],[\"password\",\"password\",\"signup-password\",\"password\"]],null],[1,\"\\n    \"],[10,0],[14,0,\"bottom-section\"],[12],[1,\"\\n      \"],[10,\"button\"],[14,4,\"submit\"],[12],[1,\"Sign up\"],[13],[1,\"\\n      \"],[8,[39,2],null,[[\"@route\"],[\"login\"]],[[\"default\"],[[[[1,\"\\n        log in\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n\"],[13]],[],false,[\"page-title\",\"input\",\"link-to\"]]",
+    "moduleName": "trial-app/templates/signup.hbs",
     "isStrictMode": false
   });
 

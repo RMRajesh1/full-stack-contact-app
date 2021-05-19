@@ -288,6 +288,30 @@ define("trial-app/tests/unit/controllers/edit-contact-test", ["qunit", "ember-qu
     });
   });
 });
+define("trial-app/tests/unit/controllers/login-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Controller | login', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks); // TODO: Replace this with your real tests.
+
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:login');
+      assert.ok(controller);
+    });
+  });
+});
+define("trial-app/tests/unit/controllers/signup-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Controller | signup', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks); // TODO: Replace this with your real tests.
+
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:signup');
+      assert.ok(controller);
+    });
+  });
+});
 define("trial-app/tests/unit/models/contact-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
   "use strict";
 
@@ -382,6 +406,17 @@ define("trial-app/tests/unit/routes/index-test", ["qunit", "ember-qunit"], funct
     });
   });
 });
+define("trial-app/tests/unit/routes/login-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Route | login', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:login');
+      assert.ok(route);
+    });
+  });
+});
 define("trial-app/tests/unit/routes/not-found-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
   "use strict";
 
@@ -389,6 +424,17 @@ define("trial-app/tests/unit/routes/not-found-test", ["qunit", "ember-qunit"], f
     (0, _emberQunit.setupTest)(hooks);
     (0, _qunit.test)('it exists', function (assert) {
       let route = this.owner.lookup('route:not-found');
+      assert.ok(route);
+    });
+  });
+});
+define("trial-app/tests/unit/routes/signup-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Route | signup', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:signup');
       assert.ok(route);
     });
   });
