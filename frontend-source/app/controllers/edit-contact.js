@@ -23,9 +23,13 @@ export default class EditContactController extends Controller {
   saveContactData() {
     if (this.checkInputFields()) {
       this.model.date = new Date().getTime();
-      this.model.number.forEach((element) => {element.save()});
-      this.model.save();
-      this.router.transitionTo('contacts');
+      this.model.save()
+      .then(() => {
+        this.model.number.forEach((element) => {
+          element.save();
+        });
+        this.router.transitionTo('contacts');
+      });
     }
   }
 

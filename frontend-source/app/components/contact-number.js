@@ -19,7 +19,7 @@ export default class ContactNumberComponent extends Component {
   @action
   removeNumber(element) {
     if (this.model.number.length > 1) {
-      element.destroyRecord();
+      element.deleteRecord();
     }
   }
 

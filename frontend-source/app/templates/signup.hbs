@@ -1,0 +1,32 @@
+{{page-title "Signup"}}
+
+<section id="signup-container">
+
+  <form action="signup" method="post">
+    <Input
+      @type="text"
+      @name="username"
+      @id="signup-username"
+      @placeholder="username"
+    />
+    <Input
+      @type="email"
+      @name="email"
+      @id="signup-email"
+      @placeholder="email"
+    />
+    <Input
+      @type="password"
+      @name="password"
+      @id="signup-password"
+      @placeholder="password"
+    />
+    <div class="bottom-section">
+      <button type="submit">Sign up</button>
+      <LinkTo @route="login">
+        log in
+      </LinkTo>
+    </div>
+  </form>
+
+</section>

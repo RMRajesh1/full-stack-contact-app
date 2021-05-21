@@ -12,4 +12,6 @@ Router.map(function () {
     this.route('contact', { path: '/:contact_id' });
   });
   this.route('not-found', { path: '/*path' });
+  this.route('login');
+  this.route('signup');
 });

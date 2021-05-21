@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
 
 export default class EditContactRoute extends Route {
 
@@ -13,20 +12,12 @@ export default class EditContactRoute extends Route {
       number.type = 0;
     } else {
       contact = this.store.findRecord('contact', contact_id);
+      number = this.store.query('number', {
+        contact: contact_id
+      })
       contact.catch(() => this.transitionTo('edit-contact', 'new') );
     }
-    console.log(contact);
-    console.log(number);
     return contact;
   }
-
-  // @action
-  // willTransition(transition) {
-  //   this.model.number.forEach(element => element.rollbackAttributes());
-  //   this.model.rollbackAttributes();
-  //   if (!confirm('You may lost the changes by redirecting!')) {
-  //     transition.abort();
-  //   }
-  // }
 
 }
