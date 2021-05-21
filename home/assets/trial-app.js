@@ -506,11 +506,12 @@
     saveContactData() {
       if (this.checkInputFields()) {
         this.model.date = new Date().getTime();
-        this.model.save();
-        this.model.number.forEach(element => {
-          element.save();
+        this.model.save().then(() => {
+          this.model.number.forEach(element => {
+            element.save();
+          });
+          this.router.transitionTo('contacts');
         });
-        this.router.transitionTo('contacts');
       }
     }
 
@@ -1490,19 +1491,14 @@
         number.type = 0;
       } else {
         contact = this.store.findRecord('contact', contact_id);
+        number = this.store.query('number', {
+          contact: contact_id
+        });
         contact.catch(() => this.transitionTo('edit-contact', 'new'));
       }
 
       return contact;
-    } // @action
-    // willTransition(transition) {
-    //   this.model.number.forEach(element => element.rollbackAttributes());
-    //   this.model.rollbackAttributes();
-    //   if (!confirm('You may lost the changes by redirecting!')) {
-    //     transition.abort();
-    //   }
-    // }
-
+    }
 
   }
 
@@ -1790,8 +1786,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "LOkq2uWb",
-    "block": "[[[1,[28,[35,0],[\"Login\"],null]],[1,\"\\n\\n\\n\"]],[],false,[\"page-title\"]]",
+    "id": "KTdd2N6W",
+    "block": "[[[1,[28,[35,0],[\"Login\"],null]],[1,\"\\n\\n\\n\"],[10,\"section\"],[14,1,\"login-container\"],[12],[1,\"\\n\\n  \"],[10,\"form\"],[14,\"action\",\"login\"],[14,\"method\",\"get\"],[12],[1,\"\\n    \"],[8,[39,1],null,[[\"@type\",\"@name\",\"@id\",\"@placeholder\"],[\"email\",\"email\",\"signup-email\",\"email\"]],null],[1,\"\\n    \"],[8,[39,1],null,[[\"@type\",\"@name\",\"@id\",\"@placeholder\"],[\"password\",\"password\",\"signup-password\",\"password\"]],null],[1,\"\\n\\n    \"],[10,0],[14,0,\"bottom-section\"],[12],[1,\"\\n      \"],[10,\"button\"],[14,4,\"submit\"],[12],[1,\"Log in\"],[13],[1,\"\\n      \"],[8,[39,2],null,[[\"@route\"],[\"signup\"]],[[\"default\"],[[[[1,\"\\n        Sign up\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\\n  \"],[13],[1,\"\\n\\n\"],[13]],[],false,[\"page-title\",\"input\",\"link-to\"]]",
     "moduleName": "trial-app/templates/login.hbs",
     "isStrictMode": false
   });
