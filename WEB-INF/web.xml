@@ -13,16 +13,6 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <!-- To get contact list -->
-    <servlet>
-        <servlet-name>ContactListServlet</servlet-name>
-        <servlet-class>action.ContactURLAction</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ContactListServlet</servlet-name>
-        <url-pattern>/contacts</url-pattern>
-    </servlet-mapping>
-
     <!-- contact action servlet -->
     <servlet>
         <servlet-name>ContactServlet</servlet-name>
