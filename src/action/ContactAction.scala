@@ -3,52 +3,50 @@ package action
 import javax.servlet.http.{HttpServlet, HttpServletRequest => HSReq, HttpServletResponse => HSResp}
 import play.api.libs.json._
 import scala.collection.mutable.{ListBuffer, Map}
-import model._
+import workflow._
 
-class ContactAction extends HttpServlet {
+class ContactAction extends HelperAction {
 
     override def doGet(req: HSReq, resp: HSResp) {
-        val requestURI = req.getRequestURI()
-        val id = requestURI.substring(requestURI.lastIndexOf("/") + 1).toInt
-
-        val contact = new ContactModel().getContact(id)
-        val number = new NumberModel().getNumber(id)
-
-        val response:JsValue = Json.toJson(Map("contacts" -> contact, "numbers" -> number))
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
-        out.println(Json.stringify(response))
+        val id = getEndUrlPattern(req, resp)
+        var response:JsValue = null
+        if (id.equals("contacts")) {
+            val contactWorkflow = new ContactWorkflow()
+            val contacts = contactWorkflow.getAllContacts()
+            val numberWorkflow = new NumberWorkflow()
+            val numbers = numberWorkflow.getAllNumbers()
+            response = Json.toJson(Map("contacts" -> contacts, "numbers" -> numbers))
+        } else {
+            val workflow = new ContactWorkflow()
+            val contact = workflow.getContact(id)
+            response = Json.toJson(Map("contact" -> contact))
+        }
+        sendJsonResponse(req, resp, response)
     }
 
     override def doPut(req: HSReq, resp: HSResp) {
-        val reader = req.getReader()
-        val payloadJson:JsValue = Json.parse(reader.readLine())
-        val updatedContact = payloadJson("contact")
-
-        val requestURI = req.getRequestURI()
-        val id = requestURI.substring(requestURI.lastIndexOf("/") + 1).toInt
-
-        val status = new ContactModel().updateContact(id, updatedContact)
-
-        val response:JsValue = Json.toJson(Map("contact" -> status))
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
-        out.println(Json.stringify(response))
+        val updatedContact = payloadData(req, resp, "contact")
+        val id = getEndUrlPattern(req, resp)
+        val workflow = new ContactWorkflow()
+        val updated = workflow.updateContact(id, updatedContact)
+        val response: JsValue = Json.toJson(Map("contact" -> updated))
+        sendJsonResponse(req, resp, response)
     }
 
     override def doDelete(req: HSReq, resp: HSResp) {
-        val requestURI = req.getRequestURI()
-        val id = requestURI.substring(requestURI.lastIndexOf("/") + 1).toInt
-
-        val status = new ContactModel().deleteContact(id)
-
+        val id = getEndUrlPattern(req, resp)
+        val workflow = new ContactWorkflow()
+        val status = workflow.deleteContact(id)
         val response:JsValue = Json.toJson(Map("contact" -> status))
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
-        out.println(Json.stringify(response))
+        sendJsonResponse(req, resp, response)
+    }
+
+    override def doPost(req: HSReq, resp: HSResp) {
+        val newContact = payloadData(req, resp, "contact")
+        val workflow = new ContactWorkflow()
+        val contact = workflow.createContact(newContact)
+        val response: JsValue = Json.toJson(Map("contact" -> contact))
+        sendJsonResponse(req, resp, response)
     }
 
 }

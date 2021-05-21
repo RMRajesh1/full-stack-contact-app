@@ -3,61 +3,48 @@ package action
 import javax.servlet.http.{HttpServlet, HttpServletRequest => HSReq, HttpServletResponse => HSResp}
 import play.api.libs.json._
 import scala.collection.mutable.{ListBuffer, Map}
-import model._
+import workflow._
 
-class NumberAction extends HttpServlet {
+class NumberAction extends HelperAction {
 
     override def doGet(req: HSReq, resp: HSResp) {
-        val reader = req.getReader()
-        val payloadJson:JsValue = Json.parse(reader.readLine())
-        val updatedNumber = payloadJson("number")
-
-        val requestURI = req.getRequestURI()
-        val id = requestURI.substring(requestURI.lastIndexOf("/") + 1).toInt
+        val contact = req.getParameter("contact")
+        var response:JsValue = null
+        val workflow = new NumberWorkflow()
+        if (contact != null) {
+            val number = workflow.getAllNumbers(contact)
+            response = Json.toJson(Map("number" -> number))
+        } else {
+            val id = getEndUrlPattern(req, resp)
+            val number = workflow.getNumber(id)
+            response = Json.toJson(Map("number" -> number))
+        }
+        sendJsonResponse(req, resp, response)
     }
 
     override def doPut(req: HSReq, resp: HSResp) {
-        val reader = req.getReader()
-        val payloadJson:JsValue = Json.parse(reader.readLine())
-        val updatedNumber = payloadJson("number")
-
-        val requestURI = req.getRequestURI()
-        val id = requestURI.substring(requestURI.lastIndexOf("/") + 1).toInt
-
-        val status = new NumberModel().updateNumber(id, updatedNumber)
-
-        val data:JsValue = Json.toJson(Map("number" -> status))
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
-        out.println(Json.stringify(data))
+        val updatedNumber = payloadData(req, resp, "number")
+        val id = getEndUrlPattern(req, resp)
+        val workflow = new NumberWorkflow()
+        val updated = workflow.updateNumber(id, updatedNumber)
+        val response:JsValue = Json.toJson(Map("number" -> updated))
+        sendJsonResponse(req, resp, response)
     }
 
     override def doPost(req: HSReq, resp: HSResp) {
-        val reader = req.getReader()
-        val payloadJson:JsValue = Json.parse(reader.readLine())
-        val newNumber = payloadJson("number")
-
-        val status = new NumberModel().createNumber(newNumber)
-
-        val data:JsValue = Json.toJson(Map("number" -> status))
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
-        out.println(Json.stringify(data))
+        val newNumber = payloadData(req, resp, "number")
+        val workflow = new NumberWorkflow()
+        val number = workflow.createNumber(newNumber)
+        val response: JsValue = Json.toJson(Map("number" -> number))
+        sendJsonResponse(req, resp, response)
     }
 
     override def doDelete(req: HSReq, resp: HSResp) {
-        val requestURI = req.getRequestURI()
-        val id = requestURI.substring(requestURI.lastIndexOf("/") + 1).toInt
-
-        val status = new NumberModel().deleteNumber(id)
-
-        val data:JsValue = Json.toJson(Map("number" -> status))
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        val out = resp.getWriter()
-        out.println(Json.stringify(data))
+        val id = getEndUrlPattern(req, resp)
+        val workflow = new NumberWorkflow()
+        val status = workflow.deleteNumber(id)
+        val response:JsValue = Json.toJson(Map("number" -> status))
+        sendJsonResponse(req, resp, response)
     }
 
 }
