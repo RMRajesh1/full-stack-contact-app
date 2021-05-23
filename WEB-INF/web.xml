@@ -13,6 +13,46 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+    <!-- log in filter -->
+    <filter>
+        <filter-name>LogFilter</filter-name>
+        <filter-class>action.FilterAction</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LogFilter</filter-name>
+        <url-pattern>/home</url-pattern>
+    </filter-mapping>
+
+    <!-- Signup action servlet -->
+    <servlet>
+        <servlet-name>SignupServlet</servlet-name>
+        <servlet-class>action.SignupAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SignupServlet</servlet-name>
+        <url-pattern>/home/signup</url-pattern>
+    </servlet-mapping>
+
+    <!-- Login action servlet -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>action.LoginAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/home/login</url-pattern>
+    </servlet-mapping>
+
+    <!-- user action servlet -->
+    <servlet>
+        <servlet-name>GetUserServlet</servlet-name>
+        <servlet-class>action.GetUserAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetUserServlet</servlet-name>
+        <url-pattern>/users/*</url-pattern>
+    </servlet-mapping>
+
     <!-- contact action servlet -->
     <servlet>
         <servlet-name>ContactServlet</servlet-name>
