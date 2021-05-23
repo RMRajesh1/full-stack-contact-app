@@ -351,6 +351,19 @@ define("trial-app/tests/unit/models/number-test", ["qunit", "ember-qunit"], func
     });
   });
 });
+define("trial-app/tests/unit/models/user-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Model | user', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks); // Replace this with your real tests.
+
+    (0, _qunit.test)('it exists', function (assert) {
+      let store = this.owner.lookup('service:store');
+      let model = store.createRecord('user', {});
+      assert.ok(model);
+    });
+  });
+});
 define("trial-app/tests/unit/routes/application-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
   "use strict";
 
@@ -455,6 +468,18 @@ define("trial-app/tests/unit/serializers/application-test", ["qunit", "ember-qun
       let record = store.createRecord('application', {});
       let serializedRecord = record.serialize();
       assert.ok(serializedRecord);
+    });
+  });
+});
+define("trial-app/tests/unit/services/cookie-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Service | cookie', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks); // TODO: Replace this with your real tests.
+
+    (0, _qunit.test)('it exists', function (assert) {
+      let service = this.owner.lookup('service:cookie');
+      assert.ok(service);
     });
   });
 });

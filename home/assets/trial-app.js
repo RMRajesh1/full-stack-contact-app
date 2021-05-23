@@ -299,6 +299,7 @@
       let number = this.store.createRecord('number');
       number.contact = this.model;
       number.type = 0;
+      number.user = this.model.user;
     }
 
     removeNumber(element) {
@@ -1219,7 +1220,7 @@
   });
   _exports.default = void 0;
 
-  var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+  var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -1229,49 +1230,56 @@
 
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-  let ContactModel = (_dec = (0, _model.hasMany)('number'), _dec2 = (0, _model.attr)('string'), _dec3 = (0, _model.attr)('string'), _dec4 = (0, _model.attr)('string'), _dec5 = (0, _model.attr)('string'), _dec6 = (0, _model.attr)('string'), (_class = class ContactModel extends _model.default {
+  let ContactModel = (_dec = (0, _model.belongsTo)('user'), _dec2 = (0, _model.hasMany)('number'), _dec3 = (0, _model.attr)('string'), _dec4 = (0, _model.attr)('string'), _dec5 = (0, _model.attr)('string'), _dec6 = (0, _model.attr)('string'), _dec7 = (0, _model.attr)('string'), (_class = class ContactModel extends _model.default {
     constructor(...args) {
       super(...args);
 
-      _initializerDefineProperty(this, "number", _descriptor, this);
+      _initializerDefineProperty(this, "user", _descriptor, this);
 
-      _initializerDefineProperty(this, "image", _descriptor2, this);
+      _initializerDefineProperty(this, "number", _descriptor2, this);
 
-      _initializerDefineProperty(this, "name", _descriptor3, this);
+      _initializerDefineProperty(this, "image", _descriptor3, this);
 
-      _initializerDefineProperty(this, "email", _descriptor4, this);
+      _initializerDefineProperty(this, "name", _descriptor4, this);
 
-      _initializerDefineProperty(this, "description", _descriptor5, this);
+      _initializerDefineProperty(this, "email", _descriptor5, this);
 
-      _initializerDefineProperty(this, "date", _descriptor6, this);
+      _initializerDefineProperty(this, "description", _descriptor6, this);
+
+      _initializerDefineProperty(this, "date", _descriptor7, this);
     }
 
-  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "number", [_dec], {
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "user", [_dec], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "image", [_dec2], {
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "number", [_dec2], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "name", [_dec3], {
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "image", [_dec3], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "email", [_dec4], {
+  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "name", [_dec4], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "description", [_dec5], {
+  }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "email", [_dec5], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, "date", [_dec6], {
+  }), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, "description", [_dec6], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, "date", [_dec7], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1299,6 +1307,60 @@
   });
   _exports.default = void 0;
 
+  var _dec, _dec2, _dec3, _dec4, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+
+  function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+  function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+  let NumberModel = (_dec = (0, _model.belongsTo)('contact'), _dec2 = (0, _model.belongsTo)('user'), _dec3 = (0, _model.attr)('string'), _dec4 = (0, _model.attr)('number'), (_class = class NumberModel extends _model.default {
+    constructor(...args) {
+      super(...args);
+
+      _initializerDefineProperty(this, "contact", _descriptor, this);
+
+      _initializerDefineProperty(this, "user", _descriptor2, this);
+
+      _initializerDefineProperty(this, "number", _descriptor3, this);
+
+      _initializerDefineProperty(this, "type", _descriptor4, this);
+    }
+
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "contact", [_dec], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "user", [_dec2], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "number", [_dec3], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "type", [_dec4], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  })), _class));
+  _exports.default = NumberModel;
+});
+;define("trial-app/models/user", ["exports", "@ember-data/model"], function (_exports, _model) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
   var _dec, _dec2, _dec3, _class, _descriptor, _descriptor2, _descriptor3;
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
@@ -1309,34 +1371,34 @@
 
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-  let NumberModel = (_dec = (0, _model.belongsTo)('contact'), _dec2 = (0, _model.attr)('string'), _dec3 = (0, _model.attr)('number'), (_class = class NumberModel extends _model.default {
+  let UserModel = (_dec = (0, _model.attr)('string'), _dec2 = (0, _model.attr)('string'), _dec3 = (0, _model.attr)('string'), (_class = class UserModel extends _model.default {
     constructor(...args) {
       super(...args);
 
-      _initializerDefineProperty(this, "contact", _descriptor, this);
+      _initializerDefineProperty(this, "name", _descriptor, this);
 
-      _initializerDefineProperty(this, "number", _descriptor2, this);
+      _initializerDefineProperty(this, "email", _descriptor2, this);
 
-      _initializerDefineProperty(this, "type", _descriptor3, this);
+      _initializerDefineProperty(this, "createdDate", _descriptor3, this);
     }
 
-  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "contact", [_dec], {
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "name", [_dec], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "number", [_dec2], {
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "email", [_dec2], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "type", [_dec3], {
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "createdDate", [_dec3], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
   })), _class));
-  _exports.default = NumberModel;
+  _exports.default = UserModel;
 });
 ;define("trial-app/router", ["exports", "trial-app/config/environment"], function (_exports, _environment) {
   "use strict";
@@ -1384,8 +1446,37 @@
   });
   _exports.default = void 0;
 
-  class ApplicationRoute extends Ember.Route {}
+  var _dec, _class, _descriptor;
 
+  function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+  function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+  let ApplicationRoute = (_dec = Ember.inject.service, (_class = class ApplicationRoute extends Ember.Route {
+    constructor(...args) {
+      super(...args);
+
+      _initializerDefineProperty(this, "cookie", _descriptor, this);
+    }
+
+    model() {
+      const account = this.cookie.getCookie('account');
+      if (!account) return;
+      return this.store.queryRecord('user', {
+        account: account
+      });
+    }
+
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "cookie", [_dec], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  })), _class));
   _exports.default = ApplicationRoute;
 });
 ;define("trial-app/routes/contacts", ["exports"], function (_exports) {
@@ -1414,7 +1505,13 @@
     }
 
     model() {
-      return this.store.findAll('contact');
+      const user = this.modelFor('application');
+      this.store.query('number', {
+        account: user.id
+      });
+      return this.store.query('contact', {
+        account: user.id
+      });
     }
 
   }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "store", [_dec], {
@@ -1483,16 +1580,20 @@
     model(params) {
       let contact, number, contact_id;
       contact_id = params.contact_id;
+      const user = this.modelFor('application');
 
       if (contact_id == 'new') {
         number = this.store.createRecord('number');
         contact = this.store.createRecord('contact');
+        contact.user = user;
         number.contact = contact;
+        number.user = contact.user;
         number.type = 0;
       } else {
         contact = this.store.findRecord('contact', contact_id);
         number = this.store.query('number', {
-          contact: contact_id
+          contact: contact_id,
+          account: user.id
         });
         contact.catch(() => this.transitionTo('edit-contact', 'new'));
       }
@@ -1602,6 +1703,37 @@
   class ApplicationSerializer extends _rest.default {}
 
   _exports.default = ApplicationSerializer;
+});
+;define("trial-app/services/cookie", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  class CookieService extends Ember.Service {
+    constructor(...args) {
+      super(...args);
+
+      _defineProperty(this, "getCookie", function (name) {
+        const cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+          const cookiePair = cookieArr[i].split("=");
+
+          if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+          }
+        }
+      });
+    }
+
+  }
+
+  _exports.default = CookieService;
 });
 ;define("trial-app/services/number-type", ["exports"], function (_exports) {
   "use strict";
