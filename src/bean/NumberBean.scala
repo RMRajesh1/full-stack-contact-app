@@ -1,154 +1,90 @@
 package bean
 
-import java.sql.{Connection, DriverManager}
+import java.sql.{Connection, DriverManager, PreparedStatement}
 import scala.collection.mutable.{ListBuffer, Map}
-import play.api.libs.json._
-import model._
+import model.Number
+import model.User
 
 class NumberBean extends DBManager {
-    def createNumber(number: NumberModel): Boolean = {
+
+    def createNumber(number: Number): Boolean = {
         var status = false
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
-            number.contact = getAtMostContactId()
-            val query = s"INSERT INTO number(number_id, number, type, contact_id) VALUES ('${number.id}', ${number.number.toLong}, ${number.numberType.toInt}, '${number.contact}')"
-            val statement = connection.createStatement()
-            statement.executeUpdate(query)
+            connection = DriverManager.getConnection(url, dbUser, password)
+            val query = "INSERT INTO number(number_id, number, type, contact_id, user_id) VALUES (?, ?, ?, ?, ?)"
+            val statement = connection.prepareStatement(query)
+            statement.setString(1, number.id)
+            statement.setLong(2, number.number)
+            statement.setInt(3, number.numberType)
+            statement.setString(4, number.contact)
+            statement.setString(5, number.user)
+            statement.executeUpdate()
             status = true
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         status
     }
 
-    def getAllNumbers(contactId: String): ListBuffer[NumberModel] = {
-        var numbers = ListBuffer[NumberModel]()
-        var connection:Connection = null
+    def getAllNumbers(userId: String, contactId: String): ListBuffer[Number] = {
+        var numbers = ListBuffer[Number]()
+        var connection: Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
-            var query = "SELECT * FROM number"
+            connection = DriverManager.getConnection(url, dbUser, password)
+            var statement: PreparedStatement = null
             if (contactId != null) {
-                query = s"SELECT * FROM number WHERE contact_id = '${contactId}'"
+                val query = "SELECT * FROM number WHERE user_id = ? AND contact_id = ?"
+                statement = connection.prepareStatement(query)
+                statement.setString(1, userId)
+                statement.setString(2, contactId)
+            } else {
+                val query = "SELECT * FROM number WHERE user_id = ?"
+                statement = connection.prepareStatement(query)
+                statement.setString(1, userId)
             }
-            val statement = connection.prepareStatement(query)
             val result = statement.executeQuery()
             while (result.next()) {
-                val numberModel = new NumberModel()
-                numberModel.id = result.getObject(1).toString
-                numberModel.number = result.getObject(2).toString
-                numberModel.numberType = result.getObject(3).toString
-                numberModel.contact = result.getObject(4).toString
-                numbers += numberModel
+                val number = new Number()
+                number.id = result.getString(1)
+                number.number = result.getLong(2)
+                number.numberType = result.getInt(3)
+                number.contact = result.getString(4)
+                number.user = result.getString(5)
+                numbers += number
             }
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         numbers
     }
 
-    def getAtMostContactId(): String = {
-        var atMostContactId = ""
-        var connection:Connection = null
-        try {
-            connection = DriverManager.getConnection(url, user, password)
-            val query = "SELECT contact_id FROM contact ORDER BY contact_id DESC LIMIT 1"
-            val statement = connection.createStatement()
-            val result = statement.executeQuery(query)
-            while (result.next()) {
-                atMostContactId = result.getString(1)
-            }
-        }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
-        atMostContactId
-    }
-
-    def getNumber(id: String, number: NumberModel) {
-        var connection:Connection = null
-        try {
-            connection = DriverManager.getConnection(url, user, password)
-            val query = "SELECT * FROM number  WHERE contact_id = ?"
-            val statement = connection.prepareStatement(query)
-            statement.setString(1, id)
-            val result = statement.executeQuery()
-            while (result.next()) {
-                number.id = result.getObject(1).toString
-                number.number = result.getObject(2).toString
-                number.numberType = result.getObject(3).toString
-                number.contact = result.getObject(4).toString
-            }
-        }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
-    }
-
-    def updateNumber(number: NumberModel): Boolean = {
+    def updateNumber(number: Number): Boolean = {
         var status = false
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
+            connection = DriverManager.getConnection(url, dbUser, password)
             val query = "UPDATE number SET number = ?, type = ? WHERE number_id = ?"
             val statement = connection.prepareStatement(query)
-            statement.setLong(1, number.number.toLong)
-            statement.setInt(2, number.numberType.toInt)
+            statement.setLong(1, number.number)
+            statement.setInt(2, number.numberType)
             statement.setString(3, number.id)
             statement.executeUpdate()
             status = true
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         status
     }
 
-    def deleteNumber(id: String): Boolean = {
+    def deleteNumber(number: Number): Boolean = {
         var status = false
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
+            connection = DriverManager.getConnection(url, dbUser, password)
             val query = "DELETE FROM number WHERE number_id = ?"
             val statement = connection.prepareStatement(query)
-            statement.setString(1, id)
+            statement.setString(1, number.id)
             val deletedRowCount = statement.executeUpdate()
             if (deletedRowCount > 0) {
                 status = true
@@ -156,16 +92,8 @@ class NumberBean extends DBManager {
                 throw new Exception("failed to delete")
             }
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         status
     }
 

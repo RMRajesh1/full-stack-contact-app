@@ -2,99 +2,85 @@ package bean
 
 import java.sql.{Connection, DriverManager}
 import scala.collection.mutable.{ListBuffer, Map}
-import play.api.libs.json._
-import model._
+import model.Contact
+import model.User
 
 class ContactBean extends DBManager {
-    def createContact(contact: ContactModel): Boolean = {
+    def createContact(contact: Contact): Boolean = {
         var status = false
-        var connection:Connection = null
+        var connection: Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
-            val query = s"INSERT INTO contact(contact_id, image, name, email, description, date) VALUES ('${contact.id}', '${contact.image}', '${contact.name}', '${contact.email}', '${contact.description}', '${contact.date.toLong}')"
-            val statement = connection.createStatement()
-            statement.executeUpdate(query)
+            connection = DriverManager.getConnection(url, dbUser, password)
+            val query = "INSERT INTO contact(contact_id, image, name, email, description, date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            val statement = connection.prepareStatement(query)
+            statement.setString(1, contact.id)
+            statement.setString(2, contact.image)
+            statement.setString(3, contact.name)
+            statement.setString(4, contact.email)
+            statement.setString(5, contact.description)
+            statement.setLong(6, contact.date)
+            statement.setString(7, contact.user)
+            statement.executeUpdate()
             status = true
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         status
     }
 
-    def getAllContacts(): ListBuffer[ContactModel] = {
-        var contacts = ListBuffer[ContactModel]()
+    def getAllContacts(user: User): ListBuffer[Contact] = {
+        var contacts = ListBuffer[Contact]()
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
-            val query = "SELECT * FROM contact"
+            connection = DriverManager.getConnection(url, dbUser, password)
+            val query = "SELECT * FROM contact WHERE user_id = ?"
             val statement = connection.prepareStatement(query)
+            statement.setString(1, user.id)
             val result = statement.executeQuery()
             while (result.next()) {
-                val contactModel = new ContactModel()
-                contactModel.id = result.getObject(1).toString
-                contactModel.image = result.getObject(2).toString
-                contactModel.name = result.getObject(3).toString
-                contactModel.email = result.getObject(4).toString
-                contactModel.description = result.getObject(5).toString
-                contactModel.date = result.getObject(6).toString
-                contacts += contactModel
+                val contact = new Contact()
+                contact.id = result.getString(1)
+                contact.image = result.getString(2)
+                contact.name = result.getString(3)
+                contact.email = result.getString(4)
+                contact.description = result.getString(5)
+                contact.date = result.getLong(6)
+                contact.user = result.getString(7)
+                contacts += contact
             }
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         contacts
     }
 
-    def getContact(id: String, contact: ContactModel) {
+    def getContact(contact: Contact) {
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
+            connection = DriverManager.getConnection(url, dbUser, password)
             val query = "SELECT * FROM contact  WHERE contact_id = ?"
             val statement = connection.prepareStatement(query)
-            statement.setString(1, id)
+            statement.setString(1, contact.id)
             val result = statement.executeQuery()
             while (result.next()) {
-                contact.id = result.getObject(1).toString
-                contact.image = result.getObject(2).toString
-                contact.name = result.getObject(3).toString
-                contact.email = result.getObject(4).toString
-                contact.description = result.getObject(5).toString
-                contact.date = result.getObject(6).toString
+                contact.id = result.getString(1)
+                contact.image = result.getString(2)
+                contact.name = result.getString(3)
+                contact.email = result.getString(4)
+                contact.description = result.getString(5)
+                contact.date = result.getLong(6)
+                contact.user = result.getString(7)
             }
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
     }
 
-    def updateContact(contact: ContactModel): Boolean = {
+    def updateContact(contact: Contact): Boolean = {
         var status = false
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
+            connection = DriverManager.getConnection(url, dbUser, password)
             val query = "UPDATE contact SET image = ?, name = ?, email = ?, description = ?, date = ? WHERE contact_id = ?"
             val statement = connection.prepareStatement(query)
             statement.setString(1, contact.image)
@@ -106,27 +92,19 @@ class ContactBean extends DBManager {
             statement.executeUpdate()
             status = true
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         status
     }
 
-    def deleteContact(id: String): Boolean = {
+    def deleteContact(contact: Contact): Boolean = {
         var status = false
         var connection:Connection = null
         try {
-            connection = DriverManager.getConnection(url, user, password)
+            connection = DriverManager.getConnection(url, dbUser, password)
             val query = "DELETE FROM contact WHERE contact_id = ?"
             val statement = connection.prepareStatement(query)
-            statement.setString(1, id)
+            statement.setString(1, contact.id)
             val deletedRowCount = statement.executeUpdate()
             if (deletedRowCount > 0) {
                 status = true
@@ -134,16 +112,8 @@ class ContactBean extends DBManager {
                 throw new Exception("failed to delete")
             }
         }
-        catch {
-            case exception: Exception => {
-                println(exception.printStackTrace())
-            }
-        }
-        finally {
-            if (connection != null) {
-                connection.close()
-            }
-        }
+        catch { case exception: Exception => println(exception.printStackTrace()) }
+        finally { closeConnection(connection) }
         status
     }
 
