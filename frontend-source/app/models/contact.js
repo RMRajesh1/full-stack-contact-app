@@ -1,7 +1,7 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class ContactModel extends Model {
-
+  @belongsTo('user') user;
   @hasMany('number') number;
 
   @attr('string') image;
@@ -9,5 +9,4 @@ export default class ContactModel extends Model {
   @attr('string') email;
   @attr('string') description;
   @attr('string') date;
-
 }

@@ -5,7 +5,9 @@ export default class ContactsRoute extends Route {
   @service store;
 
   model() {
-    return this.store.findAll('contact');
+    const user = this.modelFor('application');
+    this.store.query('number', { account: user.id });
+    return this.store.query('contact', { account: user.id});
   }
 
 }

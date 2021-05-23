@@ -14,6 +14,7 @@ export default class ContactNumberComponent extends Component {
     let number = this.store.createRecord('number');
     number.contact = this.model;
     number.type = 0;
+    number.user = this.model.user;
   }
 
   @action

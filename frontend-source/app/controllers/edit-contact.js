@@ -25,7 +25,7 @@ export default class EditContactController extends Controller {
       this.model.date = new Date().getTime();
       this.model.save()
       .then(() => {
-        this.model.number.forEach((element) => {
+        this.model.number.forEach(element => {
           element.save();
         });
         this.router.transitionTo('contacts');
