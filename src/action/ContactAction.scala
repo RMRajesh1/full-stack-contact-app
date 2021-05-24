@@ -1,7 +1,7 @@
 package action
 
 import javax.servlet.http.{HttpServlet, HttpServletRequest => HSReq, HttpServletResponse => HSResp}
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsValue, Json, JsNull}
 import scala.collection.mutable.{ListBuffer, Map}
 import model.Contact
 import model.User
@@ -67,24 +67,24 @@ class ContactAction extends HelperAction {
     }
 
     def setValues(contact: Contact, data: JsValue) {
-        if (data("image").hashCode() != -2067765616) { contact.image = data("image").as[String] }
-        if (data("email").hashCode() != -2067765616) { contact.email = data("email").as[String] }
-        if (data("description").hashCode() != -2067765616) { contact.description = data("description").as[String] }
+        if (data("image") != JsNull) { contact.image = data("image").as[String] }
+        if (data("email") != JsNull) { contact.email = data("email").as[String] }
+        if (data("description") != JsNull) { contact.description = data("description").as[String] }
         contact.name = data("name").as[String]
         contact.date = data("date").as[String].toLong
         contact.user = data("user").as[String]
     }
 
     def getValuesAsMap(contact: Contact): Map[String, String] = {
-        val map = Map.empty[String, String]
-        map("id") = contact.id
-        map("image") = contact.image
-        map("name") = contact.name
-        map("email") = contact.email
-        map("description") = contact.description
-        map("date") = contact.date.toString
-        map("user") = contact.user
-        map
+        Map(
+            "id" -> contact.id,
+            "image" -> contact.image,
+            "name" -> contact.name,
+            "email" -> contact.email,
+            "description" -> contact.description,
+            "date" -> contact.date.toString,
+            "user" -> contact.user
+        )
     }
 
 }

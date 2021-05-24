@@ -21,7 +21,6 @@ class FilterAction extends Filter {
                         val account = ck.getValue()
                         val user = User(account, null, null, null, 0)
                         val workflow = new FilterWorkflow().getUser(user)
-                        println(user.email)
                         if (user.email != null) {
                             servletResponse.sendRedirect("/contact-app/home/#/contacts")
                             return

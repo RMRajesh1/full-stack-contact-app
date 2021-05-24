@@ -29,14 +29,4 @@ class NumberWorkflow extends HelperWorkflow {
         db.deleteNumber(number)
     }
 
-    def getValuesAsMap(number: Number): Map[String, String] = {
-        val map = Map.empty[String, String]
-        map("id") = number.id
-        map("number") = number.number.toString
-        map("type") = number.numberType.toString
-        map("contact") = number.contact
-        map("user") = number.user
-        map
-    }
-
 }

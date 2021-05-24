@@ -38,7 +38,6 @@ class NumberAction extends HelperAction {
 
     override def doPost(req: HSReq, resp: HSResp) {
         val newNumber = payloadData(req, resp, "number")
-        println("number user : "+req.getParameter("user"))
         val number = Number()
         setValues(number, newNumber)
         val workflow = new NumberWorkflow()
@@ -65,13 +64,13 @@ class NumberAction extends HelperAction {
     }
 
     def getValuesAsMap(number: Number): Map[String, String] = {
-        val map = Map.empty[String, String]
-        map("id") = number.id
-        map("number") = number.number.toString
-        map("type") = number.numberType.toString
-        map("contact") = number.contact
-        map("user") = number.user
-        map
+        Map(
+            "id" -> number.id,
+            "number" -> number.number.toString,
+            "type" -> number.numberType.toString,
+            "contact" -> number.contact,
+            "user" -> number.user
+        )
     }
 
 }

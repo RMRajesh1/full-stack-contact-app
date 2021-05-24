@@ -14,7 +14,6 @@ class LoginAction extends HelperAction {
         user.email = email
         val workflow = new LoginWorkflow()
         val isAvailableUser = workflow.login(user, password)
-        println("Is Available user : "+isAvailableUser)
         if (isAvailableUser) {
             setCookie(req, resp, "account", user.id)
             resp.sendRedirect("/contact-app/home/#/contacts")
