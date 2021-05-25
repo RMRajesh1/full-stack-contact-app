@@ -17,12 +17,13 @@ class ContactAction extends HelperAction {
             user.id = req.getParameter("account")
             val contactWorkflow = new ContactWorkflow()
             val contactList = contactWorkflow.getAllContacts(user)
-            val contacts = ListBuffer[Map[String, String]]()
-            contactList.foreach {
-                case item => {
-                    contacts += getValuesAsMap(item)
-                }
-            }
+            // val contacts = ListBuffer[Map[String, String]]()
+            // contactList.foreach {
+            //     case item => {
+            //         contacts += getValuesAsMap(item)
+            //     }
+            // }
+            val contacts = contactList.map(item => getValuesAsMap(item))
             response = Json.toJson(Map("contacts" -> contacts))
         } else {
             val contact = Contact()
@@ -37,8 +38,7 @@ class ContactAction extends HelperAction {
     override def doPut(req: HSReq, resp: HSResp) {
         val updatedContact = payloadData(req, resp, "contact")
         val id = getEndUrlPattern(req, resp)
-        val contact = Contact()
-        setValues(contact, updatedContact)
+        val contact = setValues(updatedContact)
         contact.id = id
         val workflow = new ContactWorkflow()
         workflow.updateContact(contact)
@@ -58,21 +58,22 @@ class ContactAction extends HelperAction {
 
     override def doPost(req: HSReq, resp: HSResp) {
         val newContact = payloadData(req, resp, "contact")
-        val contact = Contact()
-        setValues(contact, newContact)
+        val contact = setValues(newContact)
         val workflow = new ContactWorkflow()
         workflow.createContact(contact)
         val response: JsValue = Json.toJson(Map("contact" -> getValuesAsMap(contact)))
         sendJsonResponse(req, resp, response)
     }
 
-    def setValues(contact: Contact, data: JsValue) {
+    def setValues(data: JsValue): Contact ={
+        val contact = Contact()
         if (data("image") != JsNull) { contact.image = data("image").as[String] }
         if (data("email") != JsNull) { contact.email = data("email").as[String] }
         if (data("description") != JsNull) { contact.description = data("description").as[String] }
         contact.name = data("name").as[String]
         contact.date = data("date").as[String].toLong
         contact.user = data("user").as[String]
+        contact
     }
 
     def getValuesAsMap(contact: Contact): Map[String, String] = {
